@@ -7,10 +7,10 @@ scrape_configs:
     #   extra_hosts:
     #       - host.docker.internal:host-gateway
     #
-  - job_name: 'docker'
-    metrics_path: /metrics
-    static_configs:
-      - targets: ["host.docker.internal:9323"]
+  #- job_name: 'docker'
+    #metrics_path: /metrics
+    #static_configs:
+      #- targets: ["host.docker.internal:9323"]
   - job_name: 'mongodb'
     metrics_path: /metrics
     static_configs:

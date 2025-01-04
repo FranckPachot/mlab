@@ -4,23 +4,12 @@ services:
 
   mongodb1:
     image: docker.io/mongodb/mongodb-community-server:latest
-    hostname: mongodb1
-    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
     ports:
       - 27017:27017
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    healthcheck:
-      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'host.docker.internal:27017'}]}) }" | mongosh --port 27017 --quiet
-      interval: 5s
-      timeout: 30s
-      start_period: 0s
-      start_interval: 1s
-      retries: 30
 
   mongodb_exporter:
-    image: docker.io/percona/mongodb_exporter:0.43
-    command: ["--mongodb.uri=mongodb1://127.0.0.1:27017"]
+    image: percona/mongodb_exporter:0.43.1
+    command: --mongodb.uri=mongodb://mongodb1:27017/?ssl=false --collector.dbstats
     ports:
      - 9216:9216
     depends_on:
@@ -34,7 +23,7 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
     ports:
-      - 19090:9090
+      - 9090:9090
     user: "0:0"
     volumes:
       - ./config:/etc/prometheus:ro
@@ -45,7 +34,7 @@ services:
   grafana:
     image: grafana/grafana-oss:latest
     ports:
-      - '13000:3000'
+      - '3000:3000'
     user: "0:0"
     volumes:
       - ./config:/etc/grafanax:ro
