@@ -1,0 +1,18 @@
+global:
+  scrape_interval: 1s
+scrape_configs:
+    # accesses docker metrics with this setting in /etc/docker/daemon.json
+    #   "metrics-addr": "0.0.0.0:9323"
+    # and this in docker-compose to access the host
+    #   extra_hosts:
+    #       - host.docker.internal:host-gateway
+    #
+  - job_name: 'docker'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["host.docker.internal:9323"]
+  - job_name: 'mongodb'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["mongodb_exporter:9216"]
+
