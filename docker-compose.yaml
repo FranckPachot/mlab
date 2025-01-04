@@ -2,6 +2,17 @@ services:
 
   # https://medium.com/workleap/the-only-local-mongodb-replica-set-with-docker-compose-guide-youll-ever-need-2f0b74dd8384
 
+  mongosh:
+    image: docker.io/mongodb/mongodb-community-server:latest
+    command: mongosh -f /config/functions.js --shell
+    volumes: 
+      - ./config:/config:ro
+
+  mongostat:
+    image: docker.io/mongodb/mongodb-community-server:latest
+    command: bash -c 'mongostat mongodb://mongodb1:27017/?ssl=false -o "$$(paste -sd, /config/mongostat.fields)"'
+    volumes: 
+      - ./config:/config:ro
   mongodb1:
     image: docker.io/mongodb/mongodb-community-server:latest
     ports:
@@ -9,7 +20,7 @@ services:
 
   mongodb_exporter:
     image: percona/mongodb_exporter:0.43.1
-    command: --mongodb.uri=mongodb://mongodb1:27017/?ssl=false --collector.dbstats
+    command: --mongodb.uri=mongodb://mongodb1:27017/?ssl=false --collect-all
     ports:
      - 9216:9216
     depends_on:

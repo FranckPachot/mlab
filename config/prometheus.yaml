@@ -1,5 +1,6 @@
 global:
-  scrape_interval: 1s
+  scrape_interval: 10s
+  scrape_timeout:  10s
 scrape_configs:
     # accesses docker metrics with this setting in /etc/docker/daemon.json
     #   "metrics-addr": "0.0.0.0:9323"
