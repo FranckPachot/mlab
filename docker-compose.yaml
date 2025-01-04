@@ -4,15 +4,20 @@ services:
 
   mongosh:
     image: docker.io/mongodb/mongodb-community-server:latest
-    command: mongosh -f /config/functions.js --shell
+    command: mongosh -f /config/functions.js --shell mongodb://mongodb1:27017/?ssl=false
     volumes: 
       - ./config:/config:ro
+    deploy:
+      replicas: 0
 
   mongostat:
     image: docker.io/mongodb/mongodb-community-server:latest
     command: bash -c 'mongostat mongodb://mongodb1:27017/?ssl=false -o "$$(paste -sd, /config/mongostat.fields)"'
     volumes: 
       - ./config:/config:ro
+    deploy:
+      replicas: 0
+
   mongodb1:
     image: docker.io/mongodb/mongodb-community-server:latest
     ports:
