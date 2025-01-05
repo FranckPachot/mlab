@@ -16,3 +16,18 @@ function run(durationInSeconds, func, ...args) {
     }
 }
 
+print (`
+Examples:
+
+// insertMany of 1000 documents during 5 minutes into a clustered collection "demo"
+
+ db.demo.drop();
+ db.runCommand( {
+   create: "demo",
+   clusteredIndex: { "key": { _id: 1 }, "unique": true, "name": "demo clustered key" }
+} )
+ run(300, bulkInsert, db.demo, 1, 1000);
+
+ 
+`);
+

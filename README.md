@@ -11,7 +11,8 @@ docker compose up -d
 
 Run some workload (insert for 5 minutes)
 ```
-docker compose run mongosh
+docker compose run mongosh # the entrypoint loads automatically /config/functions.js
+
  db.demo.drop(); 
  db.runCommand( {
    create: "demo",
@@ -21,8 +22,25 @@ docker compose run mongosh
 
 ```
 
-Run mongostat:
+Run a custom workload from three connections:
 ```
-docker compose run mongostat
+mlab(){
+ for i in $(seq 1 $1)
+ do
+  docker compose run -T mongosh --eval "load('/config/functions.js'); run($2)" < /dev/null |
+   | sed -e "s/^/$i\\t/" &
+ done
+ wait
+}
+
+mlab 10 "300,bulkInsert,db.demo,1,1000" 
+
 ```
 
+Run mongostat ( fields listed in ./config/mongostat.fields ):
+```
+docker compose run mongostat
+
+```
+
+Watch grafana dashboard on port 3000 or 

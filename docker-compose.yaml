@@ -4,7 +4,8 @@ services:
 
   mongosh:
     image: docker.io/mongodb/mongodb-community-server:latest
-    command: mongosh -f /config/functions.js --shell mongodb://mongodb1:27017/?ssl=false
+    entrypoint: mongosh mongodb://mongodb1:27017/?ssl=false -f /config/functions.js
+    command:    -f /config/functions.js --shell 
     volumes: 
       - ./config:/config:ro
     deploy:
@@ -59,4 +60,27 @@ services:
     depends_on:
       - prometheus
 
+  pmm-data:
+    image: percona/pmm-server:latest
+    entrypoint: /bin/true
+    volumes:
+      - /var/tmp/pmm/prometheus/data:/opt/prometheus/data
+      - /var/tmp/pmm/consul-data:/opt/consul-data
+      - /var/tmp/pmm/mysql:/var/lib/mysql
+      - /var/tmp/pmm/grafana:/var/lib/grafana
 
+  pmm-server:
+    image: percona/pmm-server:latest
+    container_name: pmm-server
+    ports:
+      - '7000:80'
+    restart: always
+    environment:
+      - SERVER_USER=admin
+      - SERVER_PASSWORD=admin
+      - METRICS_RETENTION=10h
+      - METRICS_MEMORY=4194304
+      - METRICS_RESOLUTION=1s
+      - QUERIES_RETENTION=30
+    volumes_from:
+      - pmm-data
