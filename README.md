@@ -1,5 +1,5 @@
 # fr4mlab
-Franck's repository for MongoDB learning, analyzing, and benchmarking
+Franck's Repository for MongoDB Learning, Analyzing, and Benchmarking
 
 ## Example
 
@@ -7,6 +7,7 @@ Start mongodb, prometheus, mongodb_exporter (from percona) and grafana:
 ```
 docker compose down
 docker compose up -d
+
 ```
 
 ### Run some workload (insert for 5 minutes) defined in [functions.js](./config/functions.js)
