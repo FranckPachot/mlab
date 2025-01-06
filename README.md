@@ -28,7 +28,7 @@ mlab(){
  for i in $(seq 1 $1)
  do
   docker compose run -T mongosh --eval "load('/config/functions.js'); run($2)" < /dev/null |
-   | sed -e "s/^/$i\\t/" &
+   sed -e "s/^/$i\\t/" &
  done
  wait
 }
