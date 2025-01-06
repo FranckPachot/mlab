@@ -20,8 +20,20 @@ docker compose run --rm mongosh # the entrypoint loads automatically /config/fun
  db.runCommand( {
    create: "demo",
    clusteredIndex: { "key": { _id: 1 }, "unique": true, "name": "demo clustered key" }
-} )
- run(300, bulkInsert, db.demo, 1, 1000);
+ } )
+
+ run(30,bulkInsert, db.demo, 1, 1000);
+ run(30,insertOne,db.demo);
+ run(30,queryValue,db.demo);
+ run(30,queryRange,db.demo);
+ deleteAll(db.demo);
+ db.demo.createIndex({ value: 1 });
+ run(30,bulkInsert, db.demo, 1, 1000);
+ run(30,replaceOne,db.demo);
+ run(30,updateOne,db.demo);
+ run(30,deleteOne,db.demo);
+ run(30,deleteMany,db.demo);
+ deleteAll(db.demo);
 
 ```
 

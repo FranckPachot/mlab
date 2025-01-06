@@ -1,11 +1,57 @@
 
+// Some CRUD functions
+
 function bulkInsert(collection, start, end) {
     const bulkData = [];
     for (let i = start; i <= end; i++) {
-        bulkData.push({ value: i });
+        // documents have a value (numeric) and 5 random UUID in an array
+        bulkData.push({ value: i , filler: Array.from({ length: 5 }, () => new UUID()) });
     }
     collection.insertMany(bulkData);
 }
+
+function insertOne(collection) {
+    const value = Math.floor(1e3*Math.random()) ;
+    collection.insertOne({ value: value, filler: Array.from({ length: 5 }, () => new UUID()) });
+}
+
+function deleteOne(collection) {
+    const value = Math.floor(1e3*Math.random()) ;
+    collection.deleteOne( { value: value } );
+}
+
+function deleteMany(collection) {
+    const value = Math.floor(1e3*Math.random()) ;
+    collection.deleteMany( { value: { $gte: value , $lte: value+10 } } );
+}
+
+function deleteAll(collection) {
+    collection.deleteMany({});
+}
+
+function replaceOne(collection) {
+    const oldValue = Math.floor(1e3*Math.random()) ;
+    const newValue = Math.floor(1e3*Math.random()) ;
+    collection.findOneAndReplace({ value: oldValue }, { value: newValue, filler: Array.from({ length: 5 }, () => new UUID()) });
+}
+
+function updateOne(collection, query) {
+    const value = Math.floor(1e3*Math.random()) ;
+    collection.updateOne({ value: value }, { $inc: { value: 1 } });
+}
+
+function queryValue(collection) {
+    const value = Math.floor(1e3*Math.random()) ;
+    return collection.findOne({ value: value });
+}
+
+function queryRange(collection) {
+    const minValue = Math.floor(1e3*Math.random()) ;
+    const maxValue = Math.floor(1e3*Math.random()) ;
+    return collection.find({ value: { $gte: minValue, $lte: maxValue } }).toArray();
+}
+
+// function to run another function in a loop
 
 function run(durationInSeconds, func, ...args) {
     const startTime = Date.now();
