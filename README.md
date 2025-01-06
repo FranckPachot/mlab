@@ -1,4 +1,4 @@
-# fr4mlab
+# fr4Mlab
 Franck's Repository for MongoDB Learning, Analyzing, and Benchmarking
 
 ## Example
