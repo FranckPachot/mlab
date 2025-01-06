@@ -11,7 +11,7 @@ docker compose up -d
 
 ### Run some workload (insert for 5 minutes) defined in [functions.js](./config/functions.js)
 ```
-docker compose run mongosh # the entrypoint loads automatically /config/functions.js
+docker compose run --rm mongosh # the entrypoint loads automatically /config/functions.js
 
  db.demo.drop(); 
  db.runCommand( {
@@ -48,7 +48,9 @@ docker compose run mongostat
 ![mongostats](https://github.com/user-attachments/assets/9204ac1b-5980-44fd-9ba1-5a83ef27e8dd)
 
 
-### Watch grafana dashboard on port [3000](HTTP://localhost:3000) (user/passsword admin/admin):
+### Watch grafana dashboard on port [3000](HTTP://localhost:3000) (user/password admin/admin):
 
 ![image](https://github.com/user-attachments/assets/64d8e5ba-2533-4822-afc1-ac4289e15b04)
+
+(The first run was with a clustered index, the second one with non-clustered)
 
