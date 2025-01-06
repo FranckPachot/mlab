@@ -1,7 +1,9 @@
 # fr4Mlab
 Franck's Repository for MongoDB Learning, Analyzing, and Benchmarking
 
-## Example
+You might expect some blog post about MongoDB data modeling and performance on my [dev.to](https://dev.to/franckpachot), and discussions on [Linkedin](https://www.linkedin.com/in/franckpachot) and [Twitter](https://twitter.com/FranckPachothttps://twitter.com/FranckPachot)
+
+## Example to start and use this lab
 
 Start mongodb, prometheus, mongodb_exporter (from percona) and grafana:
 ```
