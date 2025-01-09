@@ -55,9 +55,11 @@ function queryRange(collection) {
 
 function run(durationInSeconds, func, ...args) {
     const startTime = Date.now();
+    let executionCount = 0;
     while ((Date.now() - startTime) / 1000 < durationInSeconds) {
+        executionCount++;
         const timestamp = new Date().toISOString();
-        console.log(`[${timestamp}] Executing: ${func.name}(${args.join(", ")})`);
+        console.log(`[${timestamp}] Executing: ${func.name}(${args.join(", ")}) ${(executionCount/((Date.now()-startTime)/1000)).toFixed(1)}/s`);
         func(...args);
     }
 }
