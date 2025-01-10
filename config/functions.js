@@ -5,14 +5,14 @@ function bulkInsert(collection, start, end) {
     const bulkData = [];
     for (let i = start; i <= end; i++) {
         // documents have a value (numeric) and 5 random UUID in an array
-        bulkData.push({ value: i , filler: Array.from({ length: 5 }, () => new UUID()) });
+        bulkData.push({ value: i , created_at: new Date(), filler: Array.from({ length: 5 }, () => new UUID()) });
     }
     collection.insertMany(bulkData);
 }
 
 function insertOne(collection) {
     const value = Math.floor(1e3*Math.random()) ;
-    collection.insertOne({ value: value, filler: Array.from({ length: 5 }, () => new UUID()) });
+    collection.insertOne({ value: value, created_at: new Date(), filler: Array.from({ length: 5 }, () => new UUID()) });
 }
 
 function deleteOne(collection) {
@@ -59,8 +59,8 @@ function run(durationInSeconds, func, ...args) {
     while ((Date.now() - startTime) / 1000 < durationInSeconds) {
         executionCount++;
         const timestamp = new Date().toISOString();
-        console.log(`[${timestamp}] Executing: ${func.name}(${args.join(", ")}) ${(executionCount/((Date.now()-startTime)/1000)).toFixed(1)}/s`);
         func(...args);
+        console.log(`[${timestamp}] Executing: ${func.name}(${args.join(", ")}) ${(executionCount/((Date.now()-startTime)/1000)).toFixed(1)}/s`);
     }
 }
 
