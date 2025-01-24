@@ -40,6 +40,10 @@ function updateOne(collection, query) {
     collection.updateOne({ value: value }, { $inc: { value: 1 } });
 }
 
+function queryById(collection) {
+    return collection.findOne({ "_id": { $gte: new UUID() } });
+}
+
 function queryValue(collection) {
     const value = Math.floor(1e3*Math.random()) ;
     return collection.findOne({ value: value });
