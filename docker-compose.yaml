@@ -3,7 +3,7 @@ services:
   # https://medium.com/workleap/the-only-local-mongodb-replica-set-with-docker-compose-guide-youll-ever-need-2f0b74dd8384
 
   mongosh:
-    image: docker.io/mongodb/mongodb-community-server:latest
+    image: docker.io/mongo
     entrypoint: mongosh mongodb://mongodb1:27017/?ssl=false -f /config/functions.js
     command:    -f /config/functions.js --shell 
     volumes: 
@@ -12,7 +12,7 @@ services:
       replicas: 0
 
   mongostat:
-    image: docker.io/mongodb/mongodb-community-server:latest
+    image: docker.io/mongo
     command: bash -c 'mongostat mongodb://mongodb1:27017/?ssl=false -o "$$(paste -sd, /config/mongostat.fields)"'
     volumes: 
       - ./config:/config:ro
@@ -20,7 +20,7 @@ services:
       replicas: 0
 
   mongodb1:
-    image: docker.io/mongodb/mongodb-community-server:latest
+    image: docker.io/mongo
     ports:
       - 27017:27017
 
